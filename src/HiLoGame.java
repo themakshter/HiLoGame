@@ -1,69 +1,89 @@
-
 import java.io.*;
 
+/**
+ * Implementation of HiLoGame
+ * 
+ * @author Mohammad Ali
+ * 
+ */
 public class HiLoGame {
 	public static void main(String[] args) {
-		Pack myPack = new Pack();					//creates a new pack
-		myPack.shuffle();							// shuffles the new pack
-		HiLoGame aGame = new HiLoGame();			// creates a new game
+		Pack myPack = new Pack(); // creates a new pack
+		myPack.shuffle(); // shuffles the new pack
+		HiLoGame aGame = new HiLoGame(); // creates a new game
 		System.out
-				.println("Welcome, fellow mortal, to the High or Lower game!");			//the introductory line of the game
-		int play = 1;																	//this will make the loop repeat itself until the value of play changes
+				.println("Welcome, fellow mortal, to the High or Lower game!");
+		int play = 1;
+		// loop till player declines to play
 		while (play == 1) {
-			System.out.println("Choose where you want to cut the pack at.");			//prompts the user to choose where they want to cut the pack at
-			int cutPackNum;					
+			System.out.println("Choose where you want to cut the pack at.");
+			int cutPackNum;
+			// prompt user to cut the pack
 			do {
-				cutPackNum = aGame.readIntegerFromCmd() - 1;							//keeps asking unless a number in the right range is chosen
-			} while (cutPackNum < 0 || cutPackNum > 51);
+				cutPackNum = aGame.readIntegerFromCmd() - 1;
+			} while (cutPackNum < 0 || cutPackNum > 51); // keep asking till
+															// they get it right
 			Card firstCard = myPack.get(cutPackNum);
-			System.out.println("The card you have chosen is the "						//shows the user the card they chose
+			// show chosen card
+			System.out.println("The card you have chosen is the "
 					+ firstCard.toString());
+			// ask to chose higher or lower
 			System.out
-					.println("What do you think the next card will be?(H)igher or (L)ower?");	//asks them to choose Higher or Lower
+					.println("What do you think the next card will be?(H)igher or (L)ower?");
 			String choice;
 			do {
-				choice = aGame.readStringFromCmd();												//keeps asking until either H(higher) or L(lower) is entered
+				choice = aGame.readStringFromCmd();
 			} while (!(choice.equals("H") || choice.equals("L")));
+			// Display their prediction and ask to cut pack again
 			System.out
-					.println("Okay, you've chosen that the next card will be "					//Reminds the user of the choice they made
+					.println("Okay, you've chosen that the next card will be "
 							+ choice
-							+ "\nNow, choose again, where you want to cut the pack at.");		//prompts user to choose the place to cut pack again
+							+ "\nNow, choose again, where you want to cut the pack at.");
 			int cutPackNum2 = aGame.readIntegerFromCmd() - 1;
 			Card secondCard = myPack.get(cutPackNum2);
-			System.out.println("The card you have chosen is the "								//displays the chosen card
+			// Show chosen card
+			System.out.println("The card you have chosen is the "
 					+ secondCard.toString());
 			System.out.println("You had chosen " + choice);
+			// User chose higher
 			if (choice.equals("H")) {
 				boolean result = secondCard.higherThan(firstCard);
 				System.out.println(result);
 				if (result == true) {
-					System.out.println("Congratulations, you win!");						// if the user had chosen H, then it is compared if the card was higher
-				} else {																	//or lower. Then the message is produced accordingly
-					System.out.println("Sorry! You lose!");
-				}
-			}
-			if (choice.equals("L")) {
-				boolean result = secondCard.lowerThan(firstCard);							//if the user had chosen L, then it is compared again with the message
-				if (result == true) {														// produced accordingly
+					// correct value chosen
 					System.out.println("Congratulations, you win!");
 				} else {
 					System.out.println("Sorry! You lose!");
 				}
 			}
-			System.out.println("Do you want to play again?[Y/N]");							//user is asked to play the game again
+			// User chose lower
+			if (choice.equals("L")) {
+				boolean result = secondCard.lowerThan(firstCard);
+				if (result == true) { // produced accordingly
+					System.out.println("Congratulations, you win!");
+				} else {
+					System.out.println("Sorry! You lose!");
+				}
+			}
+			// ask to play again
+			System.out.println("Do you want to play again?[Y/N]");
 			String decision;
 			do {
 				decision = aGame.readStringFromCmd();
-			} while (!(decision.equals("Y") || decision.equals("N")));						//user is kept being asked until Y or N is entered
-																							//if Y is selected, the game repeats
+			} while (!(decision.equals("Y") || decision.equals("N")));
 			if (decision.equals("N")) {
-				System.out.println("Thank you for playing. Goodbye!");						//If N is selected, the goodbye message is produced
+				System.out.println("Thank you for playing. Goodbye!");
 				play = 2;
 			}
 
 		}
 	}
 
+	/**
+	 * Read integer
+	 * 
+	 * @return number the user entered
+	 */
 	public Integer readIntegerFromCmd() {
 		System.out
 				.println("Please enter your number(note, the number must be from 1 to 52. Otherwise, the pack won't be cut):");
@@ -86,6 +106,11 @@ public class HiLoGame {
 		return 0;
 	}
 
+	/**
+	 * Read string
+	 * 
+	 * @return text the user entered
+	 */
 	public String readStringFromCmd() {
 		System.out.println("Enter your choice:");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
